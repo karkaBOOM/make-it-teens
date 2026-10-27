@@ -1,0 +1,170 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Создай красивый виш лист и поделись им с друзьями.">
+  <title>Хочу! — твой виш лист</title>
+  <link rel="stylesheet" href="styles.css?v=7">
+</head>
+<body>
+  <div class="ambient ambient-one" aria-hidden="true"></div>
+  <div class="ambient ambient-two" aria-hidden="true"></div>
+
+  <header class="topbar">
+    <a class="brand" href="./" aria-label="Хочу! — на главную">
+      <span class="brand-mark">✦</span>
+      <span>Хочу!</span>
+    </a>
+    <span class="tagline">подарки, которые точно порадуют</span>
+  </header>
+
+  <main>
+    <section id="creatorView" class="creator-view">
+      <div class="hero">
+        <p class="eyebrow">Твои желания — в одном месте</p>
+        <h1>Собери виш лист,<br><span>которым хочется делиться</span></h1>
+        <p class="hero-copy">Назови имя, повод, три увлечения, настроение и бюджет — AI сам соберёт подходящие подарки.</p>
+        <div class="hero-note"><span>🎁</span> Один список. Никаких неловких «а что тебе подарить?»</div>
+      </div>
+
+      <form id="wishlistForm" class="builder" novalidate>
+        <section class="panel">
+          <div class="section-heading">
+            <div>
+              <p class="step">Шаг 1</p>
+              <h2>Для кого и по какому поводу?</h2>
+            </div>
+            <span class="counter">✦</span>
+          </div>
+          <p class="hint">Напиши только имя или никнейм — без фамилии.</p>
+          <div class="details-grid">
+            <label class="detail-field">
+              <span>Имя или никнейм</span>
+              <input id="ownerNameInput" type="text" maxlength="30" placeholder="Например, Катя" autocomplete="off">
+            </label>
+            <label class="detail-field">
+              <span>Повод</span>
+              <input id="occasionInput" type="text" maxlength="60" placeholder="Например, день рождения" autocomplete="off">
+            </label>
+          </div>
+        </section>
+
+        <section class="panel">
+          <div class="section-heading">
+            <div>
+              <p class="step">Шаг 2</p>
+              <h2>Назови три увлечения</h2>
+            </div>
+            <span class="counter">3</span>
+          </div>
+          <p class="hint">Они помогут понять, какие товары подходят именно тебе.</p>
+          <div class="hobbies-list">
+            <label class="hobby-field"><span>01</span><input class="hobby-input" type="text" maxlength="60" placeholder="Например, рисование" aria-label="Первое увлечение"></label>
+            <label class="hobby-field"><span>02</span><input class="hobby-input" type="text" maxlength="60" placeholder="Например, музыка" aria-label="Второе увлечение"></label>
+            <label class="hobby-field"><span>03</span><input class="hobby-input" type="text" maxlength="60" placeholder="Например, игры" aria-label="Третье увлечение"></label>
+          </div>
+        </section>
+
+        <section class="panel budget-panel">
+          <div class="section-heading">
+            <div>
+              <p class="step">Шаг 3</p>
+              <h2>Укажи бюджет</h2>
+            </div>
+            <span class="counter">₸</span>
+          </div>
+          <p class="hint">Сколько можно потратить на один подарок?</p>
+          <label class="budget-field">
+            <span>Бюджет</span>
+            <input id="budgetInput" type="text" maxlength="40" placeholder="Например, до 30 000 тенге" autocomplete="off">
+          </label>
+        </section>
+
+        <section class="panel">
+          <div class="section-heading">
+            <div>
+              <p class="step">Шаг 4</p>
+              <h2>Выбери настроение</h2>
+            </div>
+          </div>
+          <div id="themePicker" class="theme-picker" role="radiogroup" aria-label="Оформление виш листа">
+            <label class="theme-option theme-candy">
+              <input type="radio" name="theme" value="candy" checked>
+              <span class="theme-preview"><i>🎀</i><b>Мечта</b></span>
+              <span>Яркое</span>
+            </label>
+            <label class="theme-option theme-night">
+              <input type="radio" name="theme" value="night">
+              <span class="theme-preview"><i>🌙</i><b>Космос</b></span>
+              <span>Ночное</span>
+            </label>
+            <label class="theme-option theme-citrus">
+              <input type="radio" name="theme" value="citrus">
+              <span class="theme-preview"><i>🍋</i><b>Солнце</b></span>
+              <span>Свежее</span>
+            </label>
+            <label class="theme-option theme-custom">
+              <input type="radio" name="theme" value="custom">
+              <span class="theme-preview"><i>🪄</i><b>Своё</b></span>
+              <span>По твоим словам</span>
+            </label>
+          </div>
+          <label class="mood-words-field">
+            <span>Опиши себя и настроение парой слов</span>
+            <textarea id="moodWords" maxlength="240" placeholder="Например: спокойный вечер, люблю море, минимализм и синий цвет"></textarea>
+          </label>
+        </section>
+
+        <div id="formError" class="message error-message" role="alert" hidden></div>
+        <button id="saveButton" class="primary-button" type="submit">
+          <span>Подобрать товары</span><span aria-hidden="true">✦</span>
+        </button>
+      </form>
+
+      <section id="successCard" class="success-card" hidden>
+        <div class="success-icon">✓</div>
+        <p class="step">Готово</p>
+        <h2>Твой виш лист уже ждёт друзей</h2>
+        <p>AI подобрал товары по увлечениям, настроению и бюджету.</p>
+        <ol id="generatedPreview" class="generated-preview" aria-label="Подобранные товары"></ol>
+        <a id="wishlistLink" class="share-link" href="#"></a>
+        <div class="success-actions">
+          <button id="copyButton" class="primary-button compact" type="button">Скопировать ссылку</button>
+          <button id="openButton" class="secondary-button" type="button">Открыть виш лист</button>
+          <button id="moreIdeasButton" class="secondary-button" type="button">＋ Ещё 3 идеи</button>
+        </div>
+        <p id="copyStatus" class="copy-status" aria-live="polite"></p>
+      </section>
+    </section>
+
+    <section id="wishlistView" class="wishlist-view" hidden>
+      <div id="publicWishlist" class="public-wishlist">
+        <a id="backLink" class="back-link" href="./">← Создать свой список</a>
+        <div class="public-hero">
+          <span id="publicBadge" class="public-badge">Виш лист</span>
+          <div id="publicDecoration" class="public-decoration" aria-hidden="true">✦</div>
+          <h1 id="publicTitle">Мои желания</h1>
+          <p id="publicSubtitle">Идеи подарков, которые точно принесут радость</p>
+          <p id="publicMeta" class="public-meta" hidden></p>
+        </div>
+        <div id="loadingState" class="loading-state">
+          <span class="loader" aria-hidden="true"></span>
+          <p>Открываем виш лист…</p>
+        </div>
+        <div id="publicError" class="public-error" hidden>
+          <span>☁️</span>
+          <h2>Виш лист не открылся</h2>
+          <p id="publicErrorText">Попробуй обновить страницу.</p>
+        </div>
+        <div id="publicHobbies" class="public-hobbies" aria-label="Увлечения"></div>
+        <ol id="publicItems" class="public-items" aria-label="Желания"></ol>
+        <footer class="public-footer">Сделано с <span>♥</span> в «Хочу!»</footer>
+      </div>
+    </section>
+  </main>
+
+  <script src="ai.js?v=7"></script>
+  <script src="app.js?v=7"></script>
+</body>
+</html>
