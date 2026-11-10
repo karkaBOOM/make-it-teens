@@ -1,0 +1,309 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>dream</title>
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: Arial, sans-serif;
+      color: #252229;
+      background: #f7f4f6;
+    }
+    main {
+      width: min(980px, calc(100% - 32px));
+      margin: 0 auto;
+      padding: 52px 0 64px;
+    }
+    h1 {
+      margin: 0 0 10px;
+      font-size: clamp(48px, 10vw, 92px);
+      letter-spacing: -0.07em;
+      text-transform: lowercase;
+    }
+    .intro { margin: 0 0 32px; color: #6f6870; }
+    .gift-button {
+      display: inline-block;
+      margin: 0 0 30px;
+      padding: 14px 24px;
+      border-radius: 999px;
+      color: #fff;
+      background: #252229;
+      text-decoration: none;
+      font-size: 18px;
+      font-weight: 700;
+    }
+    .savings {
+      margin: 0 0 32px;
+      padding: 24px;
+      border: 1px solid rgba(50, 42, 48, 0.14);
+      border-radius: 24px;
+      background: #fff;
+      box-shadow: 0 10px 28px rgba(68, 54, 62, 0.08);
+    }
+    .savings h2 { margin: 0 0 8px; font-size: 26px; }
+    .savings-status { margin: 0 0 16px; color: #6f6870; }
+    .track {
+      position: relative;
+      height: 18px;
+      margin: 42px 0 18px;
+      border-radius: 999px;
+      background: #e6e2e5;
+    }
+    .track-fill {
+      width: 0;
+      height: 100%;
+      border-radius: inherit;
+      background: linear-gradient(90deg, #f5cedb, #be7892);
+      transition: width 500ms ease;
+    }
+    .skater-position {
+      position: absolute;
+      left: 0;
+      top: -34px;
+      transform: translateX(-4px);
+      transition: left 500ms ease;
+    }
+    .skater {
+      display: inline-block;
+      font-size: 34px;
+      transform-origin: center;
+    }
+    .skater.push { animation: push 600ms ease; }
+    .skater.spin { animation: spin 700ms ease; }
+    @keyframes push {
+      0%, 100% { transform: translateY(0); }
+      45% { transform: translateY(-26px) rotate(-12deg); }
+    }
+    @keyframes spin {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+    .jump-stages {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 8px;
+      margin-bottom: 20px;
+      font-size: 13px;
+      color: #8a8389;
+    }
+    .jump-stages span.unlocked { color: #252229; font-weight: 700; }
+    .save-form { display: flex; gap: 10px; flex-wrap: wrap; }
+    .save-form input {
+      flex: 1 1 190px;
+      min-width: 0;
+      padding: 12px 14px;
+      border: 1px solid #bdb6bb;
+      border-radius: 14px;
+      font: inherit;
+    }
+    .save-form button {
+      padding: 12px 18px;
+      border: 0;
+      border-radius: 14px;
+      color: #fff;
+      background: #252229;
+      font: inherit;
+      font-weight: 700;
+      cursor: pointer;
+    }
+    .jump-message { min-height: 24px; margin: 14px 0 0; font-weight: 700; }
+    .promise-history { margin: 14px 0 0; padding-left: 22px; }
+    .promise-history li { margin: 6px 0; }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 16px;
+    }
+    .card {
+      min-height: 210px;
+      padding: 22px;
+      border: 1px solid rgba(50, 42, 48, 0.14);
+      border-radius: 24px;
+      box-shadow: 0 10px 28px rgba(68, 54, 62, 0.08);
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      transition: transform 160ms ease, box-shadow 160ms ease, outline 160ms ease;
+    }
+    .card:hover { transform: translateY(-4px); box-shadow: 0 16px 34px rgba(68, 54, 62, 0.14); }
+    .card.selected { outline: 4px solid #252229; outline-offset: 2px; }
+    .card h2 { margin: 0; font-size: 23px; line-height: 1.12; }
+    .card p { margin: 18px 0 0; font-size: 20px; font-weight: 700; }
+    .card small { display: block; margin-top: 8px; color: #696168; }
+    .thing-0 { background: #ffffff; }
+    .thing-1 { background: #eaeaea; }
+    .thing-2 { background: #d0d0d0; }
+    .trip-0 { background: #fdeff3; }
+    .trip-1 { background: #f9dce5; }
+    .trip-2 { background: #f3c6d4; }
+    .trip-3 { background: #e9aabe; }
+    .skill { background: #ededed; }
+    #chosen {
+      min-height: 28px;
+      margin: 26px 0 0;
+      font-size: 18px;
+      font-weight: 700;
+    }
+    .hint { margin: 8px 0 0; color: #777077; font-size: 14px; }
+  </style>
+</head>
+<body>
+  <main>
+    <h1>dream</h1>
+    <p class="intro">Нажми на желание — карточка выделится, а ссылка откроется в новой вкладке.</p>
+    <a class="gift-button" href="#support">Помочь прыгнуть двойной аксель и тройные прыжки</a>
+    <section class="savings" id="support" aria-labelledby="support-title">
+      <h2 id="support-title">Поддержать тренировки</h2>
+      <p class="savings-status">Введи сумму, которой хотел бы помочь. Пока это только обещание поддержки — деньги никуда не отправляются.</p>
+      <form class="save-form" id="support-form">
+        <input id="support-name" type="text" maxlength="30" autocomplete="off" placeholder="Только имя" required>
+        <input id="support-amount" type="number" min="1" step="1" placeholder="Любая сумма, ₸" required>
+        <button type="submit">Поддержать</button>
+      </form>
+      <p class="jump-message" id="support-message"></p>
+      <ul class="promise-history" id="support-history" aria-label="История обещаний"></ul>
+    </section>
+    <section class="savings" aria-labelledby="savings-title">
+      <h2 id="savings-title">Аксель к роликовым конькам</h2>
+      <p class="savings-status" id="savings-status">Накоплено 0 ₸ из 240 000 ₸</p>
+      <div class="track" aria-hidden="true">
+        <div class="track-fill" id="track-fill"></div>
+        <div class="skater-position" id="skater-position"><span class="skater" id="skater">⛸️</span></div>
+      </div>
+      <div class="jump-stages" id="jump-stages">
+        <span>10 000 ₸ — толчок</span>
+        <span>15 000 ₸ — оборот вокруг себя</span>
+      </div>
+      <div class="save-form">
+        <button type="button" data-save="10000" data-move="push">+10 000 ₸ — толчок</button>
+        <button type="button" data-save="15000" data-move="spin">+15 000 ₸ — оборот</button>
+      </div>
+      <form class="save-form" id="custom-save" style="margin-top: 10px;">
+        <input id="custom-amount" type="number" min="1" step="1" placeholder="Другая сумма, ₸" required>
+        <button type="submit">Добавить сумму</button>
+      </form>
+      <p class="jump-message" id="jump-message"></p>
+    </section>
+    <section class="grid" id="wishlist" aria-label="Список желаний"></section>
+    <p id="chosen" aria-live="polite"></p>
+    <p class="hint">≈ — примерная цена</p>
+  </main>
+
+  <script src="wishes.js"></script>
+  <script>
+    const grid = document.querySelector('#wishlist');
+    const chosen = document.querySelector('#chosen');
+    const savingsGoal = 240000;
+    const savingsKey = 'dreamSavedV4';
+    let saved = Number(localStorage.getItem(savingsKey) || 0);
+    let thingIndex = 0;
+    let tripIndex = 0;
+
+    const updateSavings = () => {
+      saved = Math.min(Math.max(saved, 0), savingsGoal);
+      const progress = saved / savingsGoal;
+      document.querySelector('#savings-status').textContent = `Накоплено ${saved.toLocaleString('ru-RU')} ₸ из 240 000 ₸`;
+      document.querySelector('#track-fill').style.width = `${progress * 100}%`;
+      document.querySelector('#skater-position').style.left = `calc(${progress * 100}% - ${progress * 28}px)`;
+      document.querySelectorAll('#jump-stages span').forEach((stage) => stage.classList.toggle('unlocked', saved > 0));
+
+      const message = document.querySelector('#jump-message');
+      if (saved >= savingsGoal) {
+        message.textContent = 'Аксель приземлён — цель достигнута!';
+      } else {
+        message.textContent = `До роликовых коньков: ${(savingsGoal - saved).toLocaleString('ru-RU')} ₸`;
+      }
+    };
+
+    document.querySelectorAll('[data-save]').forEach((button) => {
+      button.addEventListener('click', () => {
+        saved += Number(button.dataset.save);
+        localStorage.setItem(savingsKey, String(Math.min(saved, savingsGoal)));
+        updateSavings();
+        const skater = document.querySelector('#skater');
+        skater.classList.remove('push', 'spin');
+        void skater.offsetWidth;
+        skater.classList.add(button.dataset.move);
+      });
+    });
+
+    document.querySelector('#custom-save').addEventListener('submit', (event) => {
+      event.preventDefault();
+      const input = document.querySelector('#custom-amount');
+      saved += Number(input.value || 0);
+      localStorage.setItem(savingsKey, String(Math.min(saved, savingsGoal)));
+      input.value = '';
+      updateSavings();
+    });
+
+    const supportKey = 'dreamSupportPromisesV2';
+    let supportPromises = [];
+    try {
+      supportPromises = JSON.parse(localStorage.getItem(supportKey) || '[]');
+    } catch {
+      supportPromises = [];
+    }
+
+    const renderPromises = () => {
+      const history = document.querySelector('#support-history');
+      history.innerHTML = '';
+      supportPromises.forEach((promise) => {
+        const item = document.createElement('li');
+        item.textContent = `${promise.name} — ${Number(promise.amount).toLocaleString('ru-RU')} ₸`;
+        history.append(item);
+      });
+    };
+
+    document.querySelector('#support-form').addEventListener('submit', (event) => {
+      event.preventDefault();
+      const nameInput = document.querySelector('#support-name');
+      const input = document.querySelector('#support-amount');
+      const name = nameInput.value.trim().split(/\s+/)[0];
+      const amount = Number(input.value || 0);
+      supportPromises.unshift({ name, amount });
+      localStorage.setItem(supportKey, JSON.stringify(supportPromises));
+      document.querySelector('#support-message').textContent = `${name}, спасибо! Обещание поддержки: ${amount.toLocaleString('ru-RU')} ₸`;
+      nameInput.value = '';
+      input.value = '';
+      renderPromises();
+    });
+
+    renderPromises();
+    updateSavings();
+
+    window.WISHES.forEach((wish) => {
+      const card = document.createElement('article');
+      let colorClass = 'skill';
+
+      if (wish.type === 'вещь') colorClass = `thing-${thingIndex++}`;
+      if (wish.type === 'впечатление') colorClass = `trip-${tripIndex++}`;
+
+      card.className = `card ${colorClass}`;
+      card.tabIndex = 0;
+      card.innerHTML = `<h2>${wish.name}</h2><div>${wish.price ? `<p>${wish.price}</p>` : ''}<small>${wish.type}</small></div>`;
+
+      const choose = () => {
+        document.querySelectorAll('.card').forEach((item) => item.classList.remove('selected'));
+        card.classList.add('selected');
+        chosen.textContent = `Выбрано: ${wish.name}${wish.price ? ` — ${wish.price}` : ''}`;
+        window.open(wish.url, '_blank', 'noopener');
+      };
+
+      card.addEventListener('click', choose);
+      card.addEventListener('keydown', (event) => {
+        if (event.key === 'Enter' || event.key === ' ') {
+          event.preventDefault();
+          choose();
+        }
+      });
+
+      grid.append(card);
+    });
+  </script>
+</body>
+</html>

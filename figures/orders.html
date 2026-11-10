@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Formi — мои заказы</title>
+  <link rel="stylesheet" href="styles.css?v=3d-1">
+</head>
+<body class="orders-page">
+  <header class="topbar">
+    <a class="brand" href="index.html"><span>F</span> Formi</a>
+    <a class="top-link" href="index.html">← На витрину</a>
+  </header>
+  <main class="orders-shell section">
+    <div class="orders-heading">
+      <div><p class="eyebrow">ТОЛЬКО ДЛЯ ВЛАДЕЛЬЦА</p><h1>Заказы</h1><p>Код владельца — как ключ. Не показывай его другим и не добавляй в страницу.</p></div>
+      <button class="ghost-button" id="logoutButton" type="button" hidden>Выйти</button>
+    </div>
+    <section class="owner-login" id="loginPanel">
+      <div class="lock">⌁</div>
+      <h2>Открой страницу заказов</h2>
+      <p>Введи код владельца, который дал наставник make it.</p>
+      <form id="loginForm">
+        <label for="ownerCode">Код владельца</label>
+        <div class="inline-field"><input id="ownerCode" type="password" autocomplete="off" placeholder="Введи код"><button class="button primary" type="submit">Открыть</button></div>
+        <p class="form-status" id="loginStatus" role="status" aria-live="polite"></p>
+      </form>
+    </section>
+    <section id="ordersPanel" hidden>
+      <div class="orders-toolbar"><p id="ordersCount"></p><button class="ghost-button" id="refreshButton" type="button">Обновить</button></div>
+      <div class="orders-grid" id="ordersList"></div>
+      <div class="empty-state" id="emptyState" hidden><span>◇</span><h2>Заказов пока нет</h2><p>Они появятся здесь после отправки с витрины.</p></div>
+      <p class="form-status" id="ordersStatus" role="status" aria-live="polite"></p>
+    </section>
+  </main>
+  <script src="ai.js?v=1"></script>
+  <script src="orders.js?v=u-kdcgdyns-preview-1"></script>
+</body>
+</html>

@@ -1,0 +1,137 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Подарок — dream</title>
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: Arial, sans-serif;
+      color: #252229;
+      background: #f7f4f6;
+    }
+    main {
+      width: min(980px, calc(100% - 32px));
+      margin: 0 auto;
+      padding: 52px 0 64px;
+    }
+    h1 {
+      margin: 0;
+      font-size: clamp(38px, 7vw, 68px);
+      letter-spacing: -0.05em;
+    }
+    .lead { margin: 12px 0 8px; color: #6f6870; font-size: 18px; }
+    .counter { margin: 0 0 28px; font-weight: 700; }
+    .pair {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 18px;
+    }
+    .choice {
+      min-height: 300px;
+      padding: 28px;
+      border: 1px solid rgba(50, 42, 48, 0.16);
+      border-radius: 28px;
+      box-shadow: 0 14px 36px rgba(68, 54, 62, 0.1);
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      text-align: left;
+      color: inherit;
+      transition: transform 160ms ease, box-shadow 160ms ease;
+    }
+    .choice:hover { transform: translateY(-5px); box-shadow: 0 20px 42px rgba(68, 54, 62, 0.16); }
+    .choice:disabled { cursor: wait; opacity: 0.8; }
+    .choice h2 { margin: 0; font-size: clamp(24px, 4vw, 34px); line-height: 1.12; }
+    .choice p { margin: 24px 0 0; font-size: 22px; font-weight: 700; }
+    .thing { background: #e5e5e5; }
+    .trip { background: #f6cfdb; }
+    .skill { background: #ededed; }
+    .result {
+      display: none;
+      padding: 38px;
+      border-radius: 30px;
+      background: #fff;
+      border: 3px solid #252229;
+      text-align: center;
+    }
+    .result.show { display: block; }
+    .result h2 { margin: 0 0 12px; font-size: clamp(30px, 6vw, 58px); }
+    .result p { margin: 0 0 26px; font-size: 24px; font-weight: 700; }
+    .result a { color: #252229; font-weight: 700; }
+    @media (max-width: 650px) {
+      .pair { grid-template-columns: 1fr; }
+      .choice { min-height: 210px; }
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <h1>Стой, выбери мне подарок</h1>
+    <p class="lead">Нажимай на то желание, которое хочется оставить.</p>
+    <p class="counter" id="counter"></p>
+    <section class="pair" id="pair" aria-label="Выбор из двух желаний"></section>
+    <section class="result" id="result" aria-live="polite"></section>
+  </main>
+
+  <script src="wishes.js"></script>
+  <script>
+    const pair = document.querySelector('#pair');
+    const counter = document.querySelector('#counter');
+    const result = document.querySelector('#result');
+    const queue = [...window.WISHES].sort(() => Math.random() - 0.5);
+    let champion = queue.shift();
+    let locked = false;
+    let round = 1;
+
+    const typeClass = (wish) => {
+      if (wish.type === 'вещь') return 'thing';
+      if (wish.type === 'впечатление') return 'trip';
+      return 'skill';
+    };
+
+    const card = (wish) => {
+      const button = document.createElement('button');
+      button.className = `choice ${typeClass(wish)}`;
+      button.innerHTML = `<h2>${wish.name}</h2>${wish.price ? `<p>${wish.price}</p>` : ''}`;
+      button.addEventListener('click', () => choose(wish));
+      return button;
+    };
+
+    const showPair = () => {
+      if (!queue.length) {
+        pair.innerHTML = '';
+        counter.textContent = '';
+        result.classList.add('show');
+        result.innerHTML = `<h2>${champion.name}</h2>${champion.price ? `<p>${champion.price}</p>` : ''}<a href="index.html">← к витрине</a>`;
+        return;
+      }
+
+      pair.innerHTML = '';
+      const challenger = queue[0];
+      const choices = Math.random() < 0.5 ? [champion, challenger] : [challenger, champion];
+      choices.forEach((wish) => pair.append(card(wish)));
+      counter.textContent = `Выбор ${round} из 7`;
+    };
+
+    const choose = (wish) => {
+      if (locked) return;
+      locked = true;
+      pair.querySelectorAll('button').forEach((button) => { button.disabled = true; });
+      champion = wish;
+      queue.shift();
+      round += 1;
+      window.setTimeout(() => {
+        locked = false;
+        showPair();
+      }, 300);
+    };
+
+    showPair();
+  </script>
+</body>
+</html>

@@ -1,0 +1,138 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Уникальные 3D-фигурки для брендов, бизнеса и праздников">
+  <title>Formi — фигурка, которой больше ни у кого нет</title>
+  <link rel="stylesheet" href="styles.css?v=preview-1">
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="#top" aria-label="Formi — на главную"><span>F</span> Formi</a>
+    <a class="top-link" href="#order">Создать фигурку</a>
+  </header>
+
+  <main id="top">
+    <section class="hero section">
+      <div class="hero-copy">
+        <p class="eyebrow">ТВОЯ ИДЕЯ → ТВОЯ ФИГУРКА</p>
+        <h1>Фигурка, которой <em>больше ни у кого нет</em></h1>
+        <p class="lead">Для бренда, бизнеса или особенного праздника. Пришли фото, опиши идею или загрузи свой рисунок.</p>
+        <a class="button primary" href="#order">Начать бесплатно <span>→</span></a>
+        <p class="micro">Первая генерация — бесплатно</p>
+      </div>
+      <div class="hero-art" aria-hidden="true">
+        <div class="orb orb-one"></div><div class="orb orb-two"></div>
+        <div class="figure-card">
+          <span class="spark s1">✦</span><span class="spark s2">✦</span>
+          <div class="mini-head"><i></i><i></i></div>
+          <div class="mini-body"><b>F</b></div>
+          <div class="mini-base">FORMI</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="steps section">
+      <p class="eyebrow">КАК ЭТО РАБОТАЕТ</p>
+      <h2>От идеи до печати</h2>
+      <div class="step-grid">
+        <article><span>01</span><div class="step-icon">✎</div><h3>Расскажи идею</h3><p>Фото, описание или рисунок — выбираешь ты.</p></article>
+        <article><span>02</span><div class="step-icon">✦</div><h3>Мы подготовим модель</h3><p>Заказ попадёт владельцу, который запустит создание 3D.</p></article>
+        <article><span>03</span><div class="step-icon">◒</div><h3>Напечатай</h3><p>Самостоятельно или закажи печать вместе с моделью.</p></article>
+      </div>
+    </section>
+
+    <section class="pricing section">
+      <div><p class="eyebrow">ПРОСТЫЕ ЦЕНЫ</p><h2>Первая — в подарок</h2><p>Проверь идею бесплатно, а потом выбери нужное количество генераций.</p></div>
+      <div class="price-grid">
+        <div class="price featured"><strong>1</strong><span>первая генерация</span><b>Бесплатно</b></div>
+        <div class="price"><strong>+1</strong><span>ещё одна генерация</span><b>300 ₸</b></div>
+        <div class="price"><strong>5</strong><span>генераций</span><b>1 500 ₸</b></div>
+        <div class="price"><strong>15</strong><span>генераций</span><b>5 000 ₸</b></div>
+        <div class="price"><strong>35</strong><span>генераций</span><b>10 500 ₸</b></div>
+        <div class="price"><strong>100</strong><span>генераций</span><b>29 990 ₸</b></div>
+      </div>
+    </section>
+
+    <section class="order-section section" id="order">
+      <div class="order-intro">
+        <p class="eyebrow">ПЕРВЫЙ ШАГ</p>
+        <h2>Опиши свою фигурку</h2>
+        <p>Мы принимаем фото питомцев, предметов, игрушек и рисунки. Фото людей не принимаются.</p>
+        <div class="privacy-note"><span>●</span> Заказ и картинку увидит только владелец сервиса.</div>
+      </div>
+
+      <form class="order-form" id="orderForm" novalidate>
+        <fieldset>
+          <legend>1. Из чего создать фигурку?</legend>
+          <div class="choice-grid source-choices">
+            <label class="choice"><input type="radio" name="sourceType" value="photo" checked><span><b>Фото</b><small>питомец, предмет или игрушка</small></span></label>
+            <label class="choice"><input type="radio" name="sourceType" value="description"><span><b>Описание</b><small>расскажи идею словами</small></span></label>
+            <label class="choice"><input type="radio" name="sourceType" value="drawing"><span><b>Мой рисунок</b><small>нарисуй прямо здесь</small></span></label>
+          </div>
+        </fieldset>
+
+        <div id="fileBlock">
+          <label class="field-title" for="imageInput">2. Загрузи картинку</label>
+          <label class="dropzone" id="dropzone" for="imageInput">
+            <input id="imageInput" type="file" accept="image/*">
+            <span class="upload-icon">↑</span><b>Выбрать картинку</b><small>JPG, PNG или WEBP</small>
+            <img id="imagePreview" alt="Предпросмотр загруженной картинки">
+          </label>
+        </div>
+
+        <div id="descriptionBlock" hidden>
+          <label class="field-title" for="descriptionInput">2. Опиши фигурку</label>
+          <textarea id="descriptionInput" maxlength="700" rows="5" placeholder="Например: фиолетовый дракон с золотыми крыльями и логотипом на груди"></textarea>
+          <small class="counter"><span id="descriptionCount">0</span>/700</small>
+        </div>
+
+        <div id="drawingBlock" hidden>
+          <p class="field-title">2. Нарисуй фигурку</p>
+          <div class="drawing-tools" aria-label="Инструменты рисования">
+            <div class="color-tools">
+              <button class="color-dot active" type="button" data-color="#17172b" style="--dot:#17172b" aria-label="Чёрный цвет"></button>
+              <button class="color-dot" type="button" data-color="#6750f3" style="--dot:#6750f3" aria-label="Фиолетовый цвет"></button>
+              <button class="color-dot" type="button" data-color="#ff6f91" style="--dot:#ff6f91" aria-label="Розовый цвет"></button>
+              <button class="color-dot" type="button" data-color="#2aa86f" style="--dot:#2aa86f" aria-label="Зелёный цвет"></button>
+              <button class="color-dot" type="button" data-color="#f1a523" style="--dot:#f1a523" aria-label="Жёлтый цвет"></button>
+            </div>
+            <label class="brush-size">Толщина <input id="brushSize" type="range" min="3" max="34" value="10"></label>
+            <button class="tool-button" id="eraserButton" type="button">Ластик</button>
+            <button class="tool-button" id="clearDrawingButton" type="button">Очистить</button>
+          </div>
+          <canvas id="drawingCanvas" width="1000" height="700" aria-label="Поле для рисования"></canvas>
+          <p class="canvas-hint">Рисуй мышкой или пальцем</p>
+        </div>
+
+        <fieldset>
+          <legend>3. Как будешь печатать?</legend>
+          <div class="choice-grid print-choices">
+            <label class="choice"><input type="radio" name="printChoice" value="order" checked><span><b>Заказать печать</b><small>напечатать вместе с моделью</small></span></label>
+            <label class="choice"><input type="radio" name="printChoice" value="self"><span><b>Самостоятельно</b><small>получить модель для своего принтера</small></span></label>
+          </div>
+        </fieldset>
+
+        <label class="field-title" for="noteInput">Что ещё важно? <span>необязательно</span></label>
+        <textarea id="noteInput" maxlength="500" rows="3" placeholder="Цвета, детали, размер или повод"></textarea>
+
+        <button class="button primary submit" id="submitButton" type="submit">Отправить заказ <span>→</span></button>
+        <p class="form-status" id="formStatus" role="status" aria-live="polite"></p>
+        <div class="client-preview" id="clientPreviewCard" hidden>
+          <p class="eyebrow">ТВОЯ БУДУЩАЯ ФИГУРКА</p>
+          <div class="client-preview-image">
+            <img id="clientPreviewImage" alt="AI-превью будущей фигурки">
+            <span class="preview-watermark">FORMI · ПРЕВЬЮ</span>
+          </div>
+          <p>Это защищённое превью. Файл для 3D-печати получает только владелец сервиса.</p>
+        </div>
+      </form>
+    </section>
+  </main>
+
+  <footer><a class="brand" href="#top"><span>F</span> Formi</a><p>Уникальные идеи становятся настоящими.</p></footer>
+  <script src="ai.js?v=1"></script>
+  <script src="app.js?v=u-kdcgdyns-preview-2"></script>
+</body>
+</html>

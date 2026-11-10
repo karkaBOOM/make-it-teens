@@ -1,0 +1,386 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Обучение фигурному катанию</title>
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      color: #1f1f1f;
+      background: #eeeeee;
+    }
+    .phone {
+      width: min(390px, calc(100% - 32px));
+      min-height: 720px;
+      margin: 32px auto;
+      padding: 22px;
+      background: #d5d5d5;
+      border: 2px solid #999999;
+      border-radius: 30px;
+    }
+    h1 { margin: 0 0 22px; }
+    .section {
+      width: 100%;
+      margin-bottom: 14px;
+      padding: 22px;
+      text-align: left;
+      font: inherit;
+      font-weight: bold;
+      color: #1f1f1f;
+      background: #bdbdbd;
+      border: 2px solid #888888;
+      border-radius: 18px;
+      cursor: pointer;
+    }
+    .panel {
+      margin: -4px 0 14px;
+      padding: 18px;
+      background: #eeeeee;
+      border: 2px solid #999999;
+      border-radius: 18px;
+    }
+    .choices { display: grid; gap: 10px; }
+    .choice {
+      padding: 12px;
+      font: inherit;
+      background: #cccccc;
+      border: 2px solid #888888;
+      border-radius: 14px;
+      cursor: pointer;
+    }
+    .hidden { display: none; }
+    .other-sections {
+      transition: opacity 0.2s ease, filter 0.2s ease;
+    }
+    .other-sections.inactive {
+      opacity: 0.28;
+      filter: blur(1px);
+      pointer-events: none;
+    }
+    .background {
+      opacity: 0.28;
+      filter: blur(1px);
+    }
+    .tag {
+      display: inline-block;
+      margin-bottom: 10px;
+      padding: 5px 9px;
+      background: #cccccc;
+      border-radius: 10px;
+      font-size: 13px;
+    }
+    ol { padding-left: 22px; line-height: 1.5; }
+    .note { font-size: 14px; line-height: 1.4; }
+    a {
+      display: inline-block;
+      margin-top: 10px;
+      color: #333333;
+    }
+  </style>
+</head>
+<body>
+  <main class="phone">
+    <h1>Обучение</h1>
+    <button class="section" id="jumpsButton" type="button">Прыжки</button>
+
+    <section class="panel hidden" id="jumpPanel">
+      <h2>Выбери прыжок</h2>
+      <div class="choices">
+        <button class="choice jump-choice" data-jump="Аксель" type="button">Аксель</button>
+        <button class="choice jump-choice" data-jump="Тулуп" type="button">Тулуп</button>
+        <button class="choice jump-choice" data-jump="Сальхов" type="button">Сальхов</button>
+        <button class="choice jump-choice" data-jump="Лутц" type="button">Лутц</button>
+        <button class="choice jump-choice" data-jump="Флип" type="button">Флип</button>
+        <button class="choice jump-choice" data-jump="Ритбергер" type="button">Ритбергер</button>
+      </div>
+    </section>
+
+    <section class="panel hidden" id="directionPanel">
+      <h2>В какую сторону ты прыгаешь?</h2>
+      <div class="choices">
+        <button class="choice direction-choice" type="button">Против часовой стрелки</button>
+        <button class="choice direction-choice" type="button">По часовой стрелке</button>
+      </div>
+    </section>
+
+    <section class="panel hidden" id="theoryPanel">
+      <h2 id="theoryTitle"></h2>
+      <p id="theoryIntro"></p>
+      <ol id="theorySteps"></ol>
+      <p class="note">Технику и сторону прыжка обязательно проверяй с тренером на льду.</p>
+      <a href="https://skatingmagazine.usfigureskating.org/article/Skating_2010_BSE_07" target="_blank" rel="noreferrer">Источник: U.S. Figure Skating</a>
+    </section>
+
+    <div class="other-sections" id="otherSections">
+      <button class="section" id="spinsButton" type="button">Вращения</button>
+
+      <section class="panel hidden" id="spinDirectionPanel">
+        <h2>В какую сторону ты крутишься?</h2>
+        <div class="choices">
+          <button class="choice spin-direction" type="button">Против часовой стрелки</button>
+          <button class="choice spin-direction" type="button">По часовой стрелке</button>
+        </div>
+      </section>
+
+      <section class="panel hidden" id="spinDifficultyPanel">
+        <h2>Выбери сложность</h2>
+        <div class="choices">
+          <button class="choice spin-difficulty" data-level="Начальная" type="button">Начальная</button>
+          <button class="choice spin-difficulty" data-level="Средняя" type="button">Средняя</button>
+          <button class="choice spin-difficulty" data-level="Сложная" type="button">Сложная</button>
+        </div>
+      </section>
+
+      <section class="panel hidden" id="spinTypesPanel">
+        <h2>Выбери вращение</h2>
+        <div class="choices" id="spinTypes"></div>
+      </section>
+
+      <section class="panel hidden" id="spinTheoryPanel">
+        <span class="tag" id="spinTag"></span>
+        <h2 id="spinTheoryTitle"></h2>
+        <p id="spinTheoryText"></p>
+        <h3>Варианты исполнения</h3>
+        <ul id="spinVariations"></ul>
+        <p class="note">Разучивай положение и вход только вместе с тренером.</p>
+        <a href="https://www.usfigureskating.org/sites/default/files/media-files/TP%20Handbook%20Single%20Skating%202024-2025%20July%2024%20FINAL.pdf" target="_blank" rel="noreferrer">Источник: U.S. Figure Skating</a>
+      </section>
+
+      <div id="extraSections">
+        <button class="section" type="button">Тренировки</button>
+        <button class="section" type="button">ОФП</button>
+      </div>
+    </div>
+
+    <a href="index.html">Назад</a>
+  </main>
+  <script>
+    const jumpPanel = document.querySelector('#jumpPanel');
+    const directionPanel = document.querySelector('#directionPanel');
+    const theoryPanel = document.querySelector('#theoryPanel');
+    const theoryTitle = document.querySelector('#theoryTitle');
+    const theoryIntro = document.querySelector('#theoryIntro');
+    const theorySteps = document.querySelector('#theorySteps');
+    const otherSections = document.querySelector('#otherSections');
+    const spinsButton = document.querySelector('#spinsButton');
+    const spinDirectionPanel = document.querySelector('#spinDirectionPanel');
+    const spinDifficultyPanel = document.querySelector('#spinDifficultyPanel');
+    const spinTypesPanel = document.querySelector('#spinTypesPanel');
+    const spinTheoryPanel = document.querySelector('#spinTheoryPanel');
+    const spinTypes = document.querySelector('#spinTypes');
+    const extraSections = document.querySelector('#extraSections');
+    let selectedJump = '';
+    let selectedSpinDirection = '';
+    let selectedSpinLevel = '';
+
+    const jumpTheory = {
+      'Аксель': {
+        intro: 'Аксель — рёберный прыжок с отталкиванием вперёд. В одинарном акселе фигурист делает полтора оборота и приземляется назад на наружное ребро другой ноги.',
+        steps: [
+          'Подготовь заход назад и сделай шаг вперёд на наружное ребро толчковой ноги.',
+          'Согни опорную ногу и направь свободную ногу вперёд-вверх.',
+          'Оттолкнись с наружного ребра, собери руки и ноги для вращения.',
+          'После полутора оборотов раскройся и приземлись назад на наружное ребро другой ноги.',
+          'Удержи выезд и проверь устойчивость.'
+        ]
+      },
+      'Тулуп': {
+        intro: 'Тулуп — зубцовый прыжок. После захода назад фигурист отталкивается наружным ребром одной ноги и помогает себе зубцом другой, а приземляется на ту же ногу, с наружного ребра которой начинался прыжок.',
+        steps: [
+          'Выполни заход через тройку и выйди назад на наружное ребро толчковой ноги.',
+          'Отведи свободную ногу назад и поставь зубец в лёд позади себя.',
+          'Оттолкнись ребром и зубцом, не разворачиваясь вперёд на льду.',
+          'Собери руки и ноги для одного оборота.',
+          'Раскройся и приземлись назад на наружное ребро толчковой ноги.'
+        ]
+      },
+      'Сальхов': {
+        intro: 'Сальхов — рёберный прыжок с отталкиванием назад с внутреннего ребра одной ноги и приземлением назад на наружное ребро другой.',
+        steps: [
+          'Сделай заход через тройку наружу или моухок.',
+          'Выйди назад на внутреннее ребро толчковой ноги и согни колено.',
+          'Проведи свободную ногу вперёд, помогая создать подъём.',
+          'Оттолкнись с внутреннего ребра и собери руки и ноги для вращения.',
+          'Раскройся и приземлись назад на наружное ребро другой ноги.'
+        ]
+      },
+      'Лутц': {
+        intro: 'Лутц — зубцовый прыжок с отталкиванием назад с наружного ребра одной ноги и помощью зубца другой. Вращение начинается в сторону, противоположную дуге захода.',
+        steps: [
+          'Скользи назад по длинной дуге на наружном ребре толчковой ноги.',
+          'Отведи свободную ногу назад и поставь её зубец в лёд.',
+          'Сохрани наружное ребро до отрыва и оттолкнись ребром и зубцом.',
+          'Собери руки и ноги для одного оборота.',
+          'Раскройся и приземлись назад на наружное ребро другой ноги.'
+        ]
+      },
+      'Флип': {
+        intro: 'Флип — зубцовый прыжок с отталкиванием назад с внутреннего ребра одной ноги и помощью зубца другой.',
+        steps: [
+          'Выполни заход и выйди назад на внутреннее ребро толчковой ноги.',
+          'Отведи свободную ногу назад и поставь её зубец в лёд.',
+          'Оттолкнись внутренним ребром и зубцом.',
+          'Собери руки и ноги для одного оборота.',
+          'Раскройся и приземлись назад на наружное ребро другой ноги.'
+        ]
+      },
+      'Ритбергер': {
+        intro: 'Ритбергер, или loop, — рёберный прыжок: отталкивание и приземление происходят назад на наружном ребре одной и той же ноги.',
+        steps: [
+          'Выйди назад на наружное ребро толчковой ноги.',
+          'Поставь свободную ногу впереди накрест, сохраняя устойчивую дугу.',
+          'Согни опорную ногу и оттолкнись с наружного ребра без помощи зубца.',
+          'Собери руки и ноги для одного оборота.',
+          'Раскройся и приземлись назад на наружное ребро той же ноги.'
+        ]
+      }
+    };
+
+    const spinTheory = {
+      'Начальная': {
+        'Вращение стоя': 'Опорная нога выпрямлена или немного согнута, корпус остаётся вертикальным, а свободная нога и руки помогают держать ось.',
+        'Волчок': 'Опорная нога согнута так, чтобы бедро было примерно параллельно льду; свободная нога остаётся впереди, сбоку или сзади.',
+        'Либела': 'Корпус наклонён вперёд, свободная нога вытянута назад, а её колено находится не ниже уровня бедра.'
+      },
+      'Средняя': {
+        'Заклон': 'Это вращение стоя, в котором голова и плечи отклоняются назад, а спина заметно прогибается.',
+        'Со сменой ноги': 'Фигурист вращается на одной ноге, затем переходит на другую и сохраняет вращение минимум несколько оборотов в каждом положении.',
+        'Комбинированное': 'В одном вращении соединяются минимум два основных положения: стоя, волчок или либела.'
+      },
+      'Сложная': {
+        'Бильман': 'Фигурист подтягивает свободную ногу сзади вверх так, чтобы конёк оказался выше головы и близко к оси тела.',
+        'Прыжок в либелу': 'Вход во вращение начинается с прыжка, после приземления фигурист сразу принимает положение либелы.',
+        'Прыжок в волчок': 'Вход начинается с прыжка, после которого фигурист приземляется в низкое положение волчка.',
+        'Вертикальная растяжка': 'Корпус остаётся вертикальным, а прямая свободная нога поднимается высоко вперёд или в сторону.'
+      }
+    };
+
+    const spinVariations = {
+      'Вращение стоя': [
+        'Винт — начальная: ноги скрещены для быстрого вращения.',
+        'Вращение стоя с ногой вперёд — средняя.',
+        'Крест — средняя: свободная нога перекрещивается с опорной.'
+      ],
+      'Волчок': [
+        'Классический волчок — начальная: свободная нога вытянута вперёд.',
+        'Волчок в сторону — средняя: свободная нога направлена вбок.',
+        'Сломанная нога — сложная: свободная нога согнута и развёрнута в сторону.',
+        'Блинчик — сложная: вращение на правой ноге, левая нога согнута впереди, будто сидишь на стульчике.',
+        'Грибочек — сложная: левая нога лежит сверху на правой, руки захватываются сзади и вытягиваются ровно.'
+      ],
+      'Либела': [
+        'Классическая либела — начальная: свободная нога прямая.',
+        'Либела вверх — средняя: корпус и плечи повёрнуты вверх.',
+        'Кольцо — сложная: конёк свободной ноги приближается к голове.'
+      ],
+      'Заклон': [
+        'Классический заклон — средняя: корпус прогнут назад.',
+        'Боковой заклон — средняя: корпус наклонён в сторону.',
+        'Заклон-кольцо — сложная: свободная нога подтянута к голове.'
+      ],
+      'Со сменой ноги': [
+        'Смена ноги стоя — средняя.',
+        'Волчок со сменой ноги — средняя.',
+        'Либела со сменой ноги — сложная.'
+      ],
+      'Комбинированное': [
+        'Комбинация двух позиций — средняя: стоя → волчок.',
+        'Комбинация двух позиций — средняя: либела → волчок.',
+        'Комбинация трёх позиций — сложная: либела → волчок → стоя.'
+      ],
+      'Бильман': [
+        'Классический Бильман — сложная: захват конька двумя руками.',
+        'Бильман одной рукой — сложная.',
+        'Бильман из вращения стоя — сложная.'
+      ],
+      'Прыжок в либелу': [
+        'Летящая либела — сложная: прыжковый вход в либелу.',
+        'Летящая либела со сменой ноги — сложная.',
+        'Летящая либела-комбинация — сложная.'
+      ],
+      'Прыжок в волчок': [
+        'Летящий волчок — сложная: приземление с прямой ногой впереди.',
+        'Летящий волчок со согнутой ногой — сложная.',
+        'Летящий волчок-комбинация — сложная: переход во вращение стоя.'
+      ],
+      'Вертикальная растяжка': [
+        'I-spin — сложная: прямая свободная нога поднята вперёд.',
+        'Y-spin — сложная: прямая свободная нога поднята в сторону.',
+        'Y-spin без поддержки — сложная: нога удерживается без помощи руки.'
+      ]
+    };
+
+    document.querySelector('#jumpsButton').addEventListener('click', () => {
+      const opening = jumpPanel.classList.contains('hidden');
+      jumpPanel.classList.toggle('hidden', !opening);
+      directionPanel.classList.add('hidden');
+      theoryPanel.classList.add('hidden');
+      otherSections.classList.toggle('inactive', opening);
+    });
+
+    document.querySelectorAll('.jump-choice').forEach((button) => {
+      button.addEventListener('click', () => {
+        selectedJump = button.dataset.jump;
+        directionPanel.classList.remove('hidden');
+        theoryPanel.classList.add('hidden');
+      });
+    });
+
+    document.querySelectorAll('.direction-choice').forEach((button) => {
+      button.addEventListener('click', () => {
+        const theory = jumpTheory[selectedJump];
+        theoryTitle.textContent = `${selectedJump} · ${button.textContent}`;
+        theoryIntro.textContent = theory.intro;
+        theorySteps.innerHTML = theory.steps.map((step) => `<li>${step}</li>`).join('');
+        theoryPanel.classList.remove('hidden');
+      });
+    });
+
+    spinsButton.addEventListener('click', () => {
+      const opening = spinDirectionPanel.classList.contains('hidden');
+      spinDirectionPanel.classList.toggle('hidden', !opening);
+      spinDifficultyPanel.classList.add('hidden');
+      spinTypesPanel.classList.add('hidden');
+      spinTheoryPanel.classList.add('hidden');
+      extraSections.classList.toggle('background', opening);
+      document.querySelector('#jumpsButton').classList.toggle('background', opening);
+    });
+
+    document.querySelectorAll('.spin-direction').forEach((button) => {
+      button.addEventListener('click', () => {
+        selectedSpinDirection = button.textContent;
+        spinDifficultyPanel.classList.remove('hidden');
+        spinTypesPanel.classList.add('hidden');
+        spinTheoryPanel.classList.add('hidden');
+      });
+    });
+
+    document.querySelectorAll('.spin-difficulty').forEach((button) => {
+      button.addEventListener('click', () => {
+        selectedSpinLevel = button.dataset.level;
+        spinTypes.innerHTML = Object.keys(spinTheory[selectedSpinLevel])
+          .map((name) => `<button class="choice spin-type" data-spin="${name}" type="button">${name}</button>`)
+          .join('');
+        spinTypesPanel.classList.remove('hidden');
+        spinTheoryPanel.classList.add('hidden');
+      });
+    });
+
+    spinTypes.addEventListener('click', (event) => {
+      const button = event.target.closest('.spin-type');
+      if (!button) return;
+      const spinName = button.dataset.spin;
+      document.querySelector('#spinTag').textContent = `${selectedSpinLevel} · ${selectedSpinDirection}`;
+      document.querySelector('#spinTheoryTitle').textContent = spinName;
+      document.querySelector('#spinTheoryText').textContent = spinTheory[selectedSpinLevel][spinName];
+      document.querySelector('#spinVariations').innerHTML = spinVariations[spinName]
+        .map((variation) => `<li>${variation}</li>`)
+        .join('');
+      spinTheoryPanel.classList.remove('hidden');
+    });
+  </script>
+</body>
+</html>
