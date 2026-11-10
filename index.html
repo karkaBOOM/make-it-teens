@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Мои проекты</title>
+  <style>
+    :root {
+      color-scheme: light;
+      font-family: Inter, system-ui, sans-serif;
+      background: #f5f1ff;
+      color: #20163a;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      min-height: 100vh;
+      margin: 0;
+      display: grid;
+      place-items: center;
+      padding: 32px 20px;
+      background:
+        radial-gradient(circle at 10% 10%, #ffe08a 0 8%, transparent 28%),
+        radial-gradient(circle at 90% 90%, #c6b7ff 0 10%, transparent 30%),
+        #f5f1ff;
+    }
+
+    main { width: min(900px, 100%); }
+
+    h1 {
+      margin: 0 0 10px;
+      font-size: clamp(42px, 8vw, 78px);
+      line-height: .95;
+    }
+
+    p {
+      margin: 0 0 32px;
+      color: #62577b;
+      font-size: 18px;
+    }
+
+    .projects {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+      gap: 16px;
+    }
+
+    a {
+      min-height: 150px;
+      padding: 22px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      color: inherit;
+      text-decoration: none;
+      background: rgba(255, 255, 255, .82);
+      border: 2px solid #20163a;
+      border-radius: 24px;
+      box-shadow: 6px 6px 0 #20163a;
+      transition: transform .18s ease, box-shadow .18s ease;
+    }
+
+    a:hover, a:focus-visible {
+      transform: translate(-3px, -3px);
+      box-shadow: 9px 9px 0 #20163a;
+      outline: none;
+    }
+
+    strong { font-size: 24px; }
+    span { color: #62577b; }
+  </style>
+</head>
+<body>
+  <main>
+    <h1>Мои проекты</h1>
+    <p>Выбирай, что посмотреть.</p>
+    <section class="projects" aria-label="Проекты">
+      <a href="figures/">
+        <strong>Formi</strong>
+        <span>Уникальные фигурки →</span>
+      </a>
+      <a href="hobby/">
+        <strong>Фигурное катание</strong>
+        <span>Обучение и тренировки →</span>
+      </a>
+      <a href="wishlist/">
+        <strong>Dream</strong>
+        <span>Выбор подарка →</span>
+      </a>
+      <a href="wishshop/">
+        <strong>Хочу!</strong>
+        <span>Виш-лист, которым делятся →</span>
+      </a>
+    </section>
+  </main>
+</body>
+</html>
